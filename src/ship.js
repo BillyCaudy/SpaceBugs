@@ -38,113 +38,185 @@ class Ship extends MovingObject {
     //   relVel[0] + this.vel[0], relVel[1] + this.vel[1]
     // ];
 
-    const bullet1 = new Bullet({
+    const bullet300 = new Bullet({
       pos: this.pos,
       vel: [25, 0],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet1);
+    this.game.add(bullet300);
 
-    const bullet2 = new Bullet({
+    const bullet336 = new Bullet({
+      pos: this.pos,
+      vel: [23.7, 7.9],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet336);
+
+    const bullet412 = new Bullet({
       pos: this.pos,
       vel: [20, 15],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet2);
+    this.game.add(bullet412);
 
-    const bullet3 = new Bullet({
+    const bullet448 = new Bullet({
       pos: this.pos,
       vel: [15, 20],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet3);
+    this.game.add(bullet448);
 
-    const bullet4 = new Bullet({
+    const bullet524 = new Bullet({
+      pos: this.pos,
+      vel: [7.9, 23.7],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet524);
+
+    const bullet600 = new Bullet({
       pos: this.pos,
       vel: [0, 25],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet4);
+    this.game.add(bullet600);
 
-    const bullet5 = new Bullet({
+    const bullet636 = new Bullet({
+      pos: this.pos,
+      vel: [-7.9, 23.7],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet636);
+
+    const bullet712 = new Bullet({
       pos: this.pos,
       vel: [-15, 20],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet5);
+    this.game.add(bullet712);
 
-    const bullet6 = new Bullet({
+    const bullet748 = new Bullet({
       pos: this.pos,
       vel: [-20, 15],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet6);
+    this.game.add(bullet748);
 
-    const bullet7 = new Bullet({
+    const bullet824 = new Bullet({
+      pos: this.pos,
+      vel: [-23.7, 7.9],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet824);
+
+    const bullet900 = new Bullet({
       pos: this.pos,
       vel: [-25, 0],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet7);
+    this.game.add(bullet900);
 
-    const bullet8 = new Bullet({
+    const bullet936 = new Bullet({
+      pos: this.pos,
+      vel: [-23.7, -7.9],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet936);
+
+    const bullet1012 = new Bullet({
       pos: this.pos,
       vel: [-20, -15],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet8);
+    this.game.add(bullet1012);
 
-    const bullet9 = new Bullet({
+    const bullet1048 = new Bullet({
       pos: this.pos,
       vel: [-15, -20],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet9);
+    this.game.add(bullet1048);
 
-    const bullet10 = new Bullet({
+    const bullet1124 = new Bullet({
+      pos: this.pos,
+      vel: [-7.9, -23.7],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet1124);
+
+    const bullet1200 = new Bullet({
       pos: this.pos,
       vel: [0, -25],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet10);
+    this.game.add(bullet1200);
 
-    const bullet11 = new Bullet({
+    const bullet1236 = new Bullet({
+      pos: this.pos,
+      vel: [7.9, -23.7],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet1236);
+
+    const bullet112 = new Bullet({
       pos: this.pos,
       vel: [15, -20],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet11);
+    this.game.add(bullet112);
 
-    const bullet12 = new Bullet({
+    const bullet148 = new Bullet({
       pos: this.pos,
       vel: [20, -15],
       color: randomColor(),
       game: this.game
     });
 
-    this.game.add(bullet12);
+    this.game.add(bullet148);
+
+    const bullet224 = new Bullet({
+      pos: this.pos,
+      vel: [23.7, -7.9],
+      color: randomColor(),
+      game: this.game
+    });
+
+    this.game.add(bullet224);
     
   }
 

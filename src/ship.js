@@ -131,7 +131,7 @@ class Ship extends MovingObject {
     const bullet11 = new Bullet({
       pos: this.pos,
       vel: [15, -20],
-      color: this.color,
+      color: randomColor(),
       game: this.game
     });
 
@@ -140,7 +140,7 @@ class Ship extends MovingObject {
     const bullet12 = new Bullet({
       pos: this.pos,
       vel: [20, -15],
-      color: this.color,
+      color: randomColor(),
       game: this.game
     });
 

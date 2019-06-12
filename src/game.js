@@ -14,7 +14,7 @@ class Game {
 
     for(let i = 0; i < numFrames; i++) {
       let bgImg = new Image();
-      bgImg.src = `../../../reAnimator/Reanimator/testscss/tennis/${i + 1}.jpg`;
+      bgImg.src = `../tennis_pics/${i + 1}.jpg`;
       bgImgs[i] = bgImg;
     }
     

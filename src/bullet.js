@@ -8,7 +8,7 @@ class Bullet extends MovingObject {
   }
 }
 
-Bullet.RADIUS = 128;
+Bullet.RADIUS = 64;
 Bullet.SPEED = 25;
 
 module.exports = Bullet;

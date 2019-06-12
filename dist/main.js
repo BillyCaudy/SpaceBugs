@@ -104,7 +104,7 @@ eval("const Util = __webpack_require__(/*! ./util */ \"./src/util.js\");\nconst 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const MovingObject = __webpack_require__(/*! ./moving_object */ \"./src/moving_object.js\");\n\nclass Bullet extends MovingObject {\n  constructor(options) {\n    options.radius = Bullet.RADIUS;\n    super(options);\n    this.isWrappable = false;\n  }\n}\n\nBullet.RADIUS = 128;\nBullet.SPEED = 25;\n\nmodule.exports = Bullet;\n\n\n//# sourceURL=webpack:///./src/bullet.js?");
+eval("const MovingObject = __webpack_require__(/*! ./moving_object */ \"./src/moving_object.js\");\n\nclass Bullet extends MovingObject {\n  constructor(options) {\n    options.radius = Bullet.RADIUS;\n    super(options);\n    this.isWrappable = false;\n  }\n}\n\nBullet.RADIUS = 64;\nBullet.SPEED = 25;\n\nmodule.exports = Bullet;\n\n\n//# sourceURL=webpack:///./src/bullet.js?");
 
 /***/ }),
 

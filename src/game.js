@@ -20,9 +20,6 @@ class Game {
     
     this.addAsteroids();
   }
-
-  
-
   
   add(object) {
     if (object instanceof Asteroid) {
@@ -45,7 +42,9 @@ class Game {
   addShip() {
     const ship = new Ship({
       pos: this.randomPosition(),
-      game: this
+      game: this,
+      color: "#F00",
+      otherColor: "#FF0"
     });
 
     this.add(ship);
@@ -78,10 +77,10 @@ class Game {
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.drawImage(bgImgs[bgIdx], 5, 5); 
     bgIdx = (bgIdx + 1) % numFrames;
-    
-    this.allObjects().forEach((object) => {
-      object.draw(ctx);
-    });
+    this.ships[0].resetColorsSequentially();
+    this.allObjects().forEach((object) => { //comment out 
+      object.draw(ctx); //these lines to exclude 
+    }); //asteroids and ship
   }
 
   isOutOfBounds(pos) {

@@ -1,9 +1,10 @@
 const MovingObject = require("./moving_object");
 const Bullet = require("./bullet");
 const Util = require("./util");
+const hexDigits = "0123456789ABCDEF";
+let normVel = [1,0];
 
 function randomColor() {
-  const hexDigits = "0123456789ABCDEF";
 
   let color = "#";
   for (let i = 0; i < 3; i++) {
@@ -13,12 +14,93 @@ function randomColor() {
   return color;
 }
 
+function colorIncrease(colorVal) {
+  if(colorVal==="F") return "F";
+  return hexDigits[ hexDigits.indexOf(colorVal) + 1 ]
+}
+
+function colorDecrease(colorVal) {
+  if (colorVal === "0") return "0";
+  return hexDigits[hexDigits.indexOf(colorVal) - 1]
+}
+
 class Ship extends MovingObject {
   constructor(options) {
     options.radius = Ship.RADIUS;
     options.vel = options.vel || [0, 0];
     options.color = options.color || randomColor();
     super(options);
+
+    this.otherColor = options.otherColor;
+    this.resetColorRandomly = this.resetColorRandomly.bind(this);
+    this.resetColorsSequentially = this.resetColorsSequentially.bind(this);
+  }
+  
+  resetColorRandomly() {
+    this.color = randomColor();
+  }
+
+  resetColorsSequentially() {
+    this.color = this.advanceColorSequentially(this.color);
+    this.otherColor = this.advanceColorSequentially(this.otherColor);
+  }
+  
+  advanceColorSequentially(color) {
+    let colors = color.split("");
+    let red = colors[1];
+    let green = colors[2];
+    let blue = colors[3];
+    if (red === "F") {
+      if (blue === "0") {
+        if (green === "F") {
+          red = colorDecrease(red);
+        } else {
+          green = colorIncrease(green);
+        }
+      } else {
+        blue = colorDecrease(blue);
+      }
+    } else if (green === "F") {
+      if (red === "0") {
+        if (blue === "F") {
+          green = colorDecrease(green);
+        } else {
+          blue = colorIncrease(blue);
+        }
+      } else {
+        red = colorDecrease(red);
+      }
+    } else if (blue === "F") {
+      if (green === "0") {
+        if (red === "F") {
+          blue = colorDecrease(blue);
+        } else {
+          red = colorIncrease(red);
+        }
+      } else {
+        green = colorDecrease(green);
+      }
+    }
+    return "#" + red + green + blue;
+  }
+
+  draw(ctx) {
+    if(Util.norm(this.vel) !== 0) normVel = Util.dir(this.vel);
+    console.log(normVel);
+    let xi = this.pos[0] - this.radius / 2 * normVel[0];
+    let yi = this.pos[1] - this.radius / 2 * normVel[1];
+    let xf = this.pos[0] + this.radius / 2 * normVel[0];
+    let yf = this.pos[1] + this.radius / 2 * normVel[1];
+    let shipGradient = ctx.createLinearGradient(xi, yi, xf, yf);
+    shipGradient.addColorStop(0, this.color);
+    shipGradient.addColorStop(1, this.otherColor);
+    ctx.fillStyle = shipGradient; // gradient(this.color, this.otherColor);
+
+    ctx.beginPath();
+    ctx.arc(
+      this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true
+    );
+    ctx.fill();
   }
 
   fireBullet() {

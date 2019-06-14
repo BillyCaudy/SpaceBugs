@@ -86,7 +86,6 @@ class Ship extends MovingObject {
 
   draw(ctx) {
     if(Util.norm(this.vel) !== 0) normVel = Util.dir(this.vel);
-    console.log(normVel);
     let xi = this.pos[0] - this.radius / 2 * normVel[0];
     let yi = this.pos[1] - this.radius / 2 * normVel[1];
     let xf = this.pos[0] + this.radius / 2 * normVel[0];

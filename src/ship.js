@@ -86,10 +86,10 @@ class Ship extends MovingObject {
 
   draw(ctx) {
     if(Util.norm(this.vel) !== 0) normVel = Util.dir(this.vel);
-    let xi = this.pos[0] - this.radius / 2 * normVel[0];
-    let yi = this.pos[1] - this.radius / 2 * normVel[1];
-    let xf = this.pos[0] + this.radius / 2 * normVel[0];
-    let yf = this.pos[1] + this.radius / 2 * normVel[1];
+    let xi = this.pos[0] - this.radius * normVel[0];
+    let yi = this.pos[1] - this.radius * normVel[1];
+    let xf = this.pos[0] + this.radius * normVel[0];
+    let yf = this.pos[1] + this.radius * normVel[1];
     let shipGradient = ctx.createLinearGradient(xi, yi, xf, yf);
     shipGradient.addColorStop(0, this.color);
     shipGradient.addColorStop(1, this.otherColor);

@@ -15,7 +15,7 @@ class GameView {
       key(k, () => { ship.power(move); });
     });
 
-    key("space", () => { ship.fireBullet(); });
+    key("space", () => { ship.fireVolly(); });
   }
 
   start() {

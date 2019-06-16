@@ -36,6 +36,7 @@ class Asteroid extends MovingObject {
     ctx.fillStyle = this.color;
     ctx.strokeStyle = "black";
     ctx.lineWidth = 1;
+    ctx.shadowBlur = 0;
     ctx.beginPath();
     ctx.arc(
       this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true

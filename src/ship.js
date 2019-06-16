@@ -94,7 +94,8 @@ class Ship extends MovingObject {
     shipGradient.addColorStop(0, this.color);
     shipGradient.addColorStop(1, this.otherColor);
     ctx.fillStyle = shipGradient; // gradient(this.color, this.otherColor);
-
+    ctx.shadowBlur = 7;
+    ctx.shadowColor = this.otherColor;
     ctx.beginPath();
     ctx.arc(
       this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true
@@ -102,202 +103,38 @@ class Ship extends MovingObject {
     ctx.fill();
   }
 
+  fireVolly() {
+    let vollyCount = 1;
+    for (let i = 0; i < vollyCount; i++) {
+      this.fireBullet();
+    }
+  }
+  
   fireBullet() {
-    // const norm = Util.norm(this.vel);
+    const normShipVel = Util.norm(this.vel);
 
-    // if (norm === 0) {
-    //   // Can't fire unless moving.
-    //   return;
-    // }
+    let relVel = [Bullet.SPEED, 0]
+    
+    if (normShipVel !== 0) {
+      relVel = Util.scale(
+        Util.dir(this.vel),
+        Bullet.SPEED
+      );
+    }
 
-    // const relVel = Util.scale(
-    //   Util.dir(this.vel),
-    //   Bullet.SPEED
-    // );
+    const bulletVel = [
+      relVel[0] + this.vel[0], relVel[1] + this.vel[1]
+    ];
 
-    // const bulletVel = [
-    //   relVel[0] + this.vel[0], relVel[1] + this.vel[1]
-    // ];
-
-    const bullet300 = new Bullet({
+    
+    let bullet1200 = new Bullet({
       pos: this.pos,
-      vel: [25, 0],
-      color: randomColor(),
+      vel: bulletVel,
+      color: this.otherColor,
       game: this.game
     });
-
-    this.game.add(bullet300);
-
-    const bullet336 = new Bullet({
-      pos: this.pos,
-      vel: [23.7, 7.9],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet336);
-
-    const bullet412 = new Bullet({
-      pos: this.pos,
-      vel: [20, 15],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet412);
-
-    const bullet448 = new Bullet({
-      pos: this.pos,
-      vel: [15, 20],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet448);
-
-    const bullet524 = new Bullet({
-      pos: this.pos,
-      vel: [7.9, 23.7],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet524);
-
-    const bullet600 = new Bullet({
-      pos: this.pos,
-      vel: [0, 25],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet600);
-
-    const bullet636 = new Bullet({
-      pos: this.pos,
-      vel: [-7.9, 23.7],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet636);
-
-    const bullet712 = new Bullet({
-      pos: this.pos,
-      vel: [-15, 20],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet712);
-
-    const bullet748 = new Bullet({
-      pos: this.pos,
-      vel: [-20, 15],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet748);
-
-    const bullet824 = new Bullet({
-      pos: this.pos,
-      vel: [-23.7, 7.9],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet824);
-
-    const bullet900 = new Bullet({
-      pos: this.pos,
-      vel: [-25, 0],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet900);
-
-    const bullet936 = new Bullet({
-      pos: this.pos,
-      vel: [-23.7, -7.9],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet936);
-
-    const bullet1012 = new Bullet({
-      pos: this.pos,
-      vel: [-20, -15],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet1012);
-
-    const bullet1048 = new Bullet({
-      pos: this.pos,
-      vel: [-15, -20],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet1048);
-
-    const bullet1124 = new Bullet({
-      pos: this.pos,
-      vel: [-7.9, -23.7],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet1124);
-
-    const bullet1200 = new Bullet({
-      pos: this.pos,
-      vel: [0, -25],
-      color: randomColor(),
-      game: this.game
-    });
-
+    
     this.game.add(bullet1200);
-
-    const bullet1236 = new Bullet({
-      pos: this.pos,
-      vel: [7.9, -23.7],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet1236);
-
-    const bullet112 = new Bullet({
-      pos: this.pos,
-      vel: [15, -20],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet112);
-
-    const bullet148 = new Bullet({
-      pos: this.pos,
-      vel: [20, -15],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet148);
-
-    const bullet224 = new Bullet({
-      pos: this.pos,
-      vel: [23.7, -7.9],
-      color: randomColor(),
-      game: this.game
-    });
-
-    this.game.add(bullet224);
     
   }
 

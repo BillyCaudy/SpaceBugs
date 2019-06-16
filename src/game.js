@@ -2,7 +2,7 @@ const Asteroid = require("./asteroid");
 const Bullet = require("./bullet");
 const Ship = require("./ship");
 const Util = require("./util");
-const numFrames = 59;
+const numFrames = 99;
 const bgImgs = new Array(numFrames);
 let bgIdx = 0;
 
@@ -14,7 +14,7 @@ class Game {
 
     for(let i = 0; i < numFrames; i++) {
       let bgImg = new Image();
-      bgImg.src = `./tennis_pics/${i + 1}.jpg`;
+      bgImg.src = `./galaxy_pics/${9*(i + 1)}.jpg`;
       bgImgs[i] = bgImg;
     }
     
@@ -75,6 +75,7 @@ class Game {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    ctx.shadowBlur = 0;
     ctx.drawImage(bgImgs[bgIdx], 5, 5); 
     bgIdx = (bgIdx + 1) % numFrames;
     this.ships[0].resetColorsSequentially();
@@ -126,8 +127,8 @@ class Game {
 }
 
 Game.BG_COLOR = "#000000";
-Game.DIM_X = 860;
-Game.DIM_Y = 490;
+Game.DIM_X = 1280;//860;
+Game.DIM_Y = 720;//490;
 Game.FPS = 32;
 Game.NUM_ASTEROIDS = 32;
 

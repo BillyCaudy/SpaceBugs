@@ -41,7 +41,7 @@ class Game {
 
   addShip() {
     const ship = new Ship({
-      pos: this.randomPosition(),
+      pos: this.centerPosition(),
       game: this,
       color: "#F00",
       otherColor: "#FF0"
@@ -93,6 +93,18 @@ class Game {
     this.allObjects().forEach((object) => {
       object.move(delta);
     });
+  }
+
+  centerPosition() {
+    let randRadius = 0.1;
+    let centPos = [
+      Game.DIM_X / 2,
+      Game.DIM_Y / 2
+    ];
+    return [
+      centPos[0] + (2 * Math.random() - 1) * Game.DIM_X * randRadius,
+      centPos[1] + (2 * Math.random() - 1) * Game.DIM_Y * randRadius
+    ];
   }
 
   randomPosition() {

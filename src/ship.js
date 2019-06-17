@@ -104,33 +104,46 @@ class Ship extends MovingObject {
   }
 
   fireVolly() {
-    let vollyCount = 1;
-    for (let i = 0; i < vollyCount; i++) {
-      this.fireBullet();
-    }
-  }
-  
-  fireBullet() {
+    let vollyCount = 5;
+    let bulletPos = this.pos;
+    let bulletColor = this.color;
+    
     const normShipVel = Util.norm(this.vel);
 
-    let relVel = [Bullet.SPEED, 0]
+    let relVel = [Bullet.SPEED, 0];
+    let relDir = [1,0];
     
     if (normShipVel !== 0) {
-      relVel = Util.scale(
-        Util.dir(this.vel),
-        Bullet.SPEED
-      );
+      relDir = Util.dir(this.vel);
+      relVel = Util.scale(relDir, Bullet.SPEED);
     }
 
     const bulletVel = [
-      relVel[0] + this.vel[0], relVel[1] + this.vel[1]
+      relVel[0] + this.vel[0],
+      relVel[1] + this.vel[1]
     ];
-
     
+    for (let i = 0; i < vollyCount; i++) {
+      
+      this.fireBullet(bulletPos,bulletVel,bulletColor);
+      
+      bulletPos = [
+        bulletPos[0] + Bullet.RADIUS * 3/2 * relDir[0],
+        bulletPos[1] + Bullet.RADIUS * 3/2 * relDir[1]
+      ];
+      bulletColor = this.advanceColorSequentially(bulletColor);
+      bulletColor = this.advanceColorSequentially(bulletColor);
+      bulletColor = this.advanceColorSequentially(bulletColor);
+      bulletColor = this.advanceColorSequentially(bulletColor);
+    }
+  }
+  
+  fireBullet(bulletPos,bulletVel,bulletColor) {
+
     let bullet1200 = new Bullet({
-      pos: this.pos,
+      pos: bulletPos,
       vel: bulletVel,
-      color: this.otherColor,
+      color: bulletColor,
       game: this.game
     });
     
@@ -144,7 +157,8 @@ class Ship extends MovingObject {
   }
 
   relocate() {
-    this.pos = this.game.randomPosition();
+    this.pos = this.game.centerPosition();
+    console.log(this.pos);
     this.vel = [0, 0];
   }
 }

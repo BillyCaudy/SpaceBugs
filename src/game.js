@@ -76,6 +76,7 @@ class Game {
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.shadowBlur = 0;
+    // ctx.drawImage(bgImgs[16], 5, 5); 
     ctx.drawImage(bgImgs[bgIdx], 5, 5); 
     bgIdx = (bgIdx + 1) % numFrames;
     this.ships[0].resetColorsSequentially();

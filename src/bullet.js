@@ -9,7 +9,7 @@ class Bullet extends MovingObject {
   
   draw(ctx) {
     ctx.strokeStyle = this.color;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.shadowBlur = 5;
     ctx.shadowColor = this.color;
     ctx.beginPath();
@@ -22,6 +22,6 @@ class Bullet extends MovingObject {
 }
 
 Bullet.RADIUS = 16;
-Bullet.SPEED = 16;
+Bullet.SPEED = 4;
 
 module.exports = Bullet;

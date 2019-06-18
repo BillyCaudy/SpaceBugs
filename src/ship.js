@@ -32,8 +32,13 @@ class Ship extends MovingObject {
     super(options);
 
     this.otherColor = options.otherColor;
-    this.resetColorRandomly = this.resetColorRandomly.bind(this);
-    this.resetColorsSequentially = this.resetColorsSequentially.bind(this);
+    // this.resetColorRandomly = this.resetColorRandomly.bind(this);
+    // this.resetColorsSequentially = this.resetColorsSequentially.bind(this);
+    this.cornersRelPos = [[0, 0], [0, 0], [0, 0]];
+    this.cornersAbsPos = [[0,0],[0,0],[0,0]];
+    // this.calcCornersAbsolutePosition = this.calcCornersAbsolutePosition.bind(this);
+    this.rotateCorners();
+    this.calcCornersAbsolutePosition();
   }
   
   resetColorRandomly() {
@@ -88,8 +93,8 @@ class Ship extends MovingObject {
     if(Util.norm(this.vel) !== 0) normVel = Util.dir(this.vel);
     let xi = this.pos[0] - this.radius * normVel[0];
     let yi = this.pos[1] - this.radius * normVel[1];
-    let xf = this.pos[0] + this.radius * normVel[0];
-    let yf = this.pos[1] + this.radius * normVel[1];
+    let xf = this.pos[0] + 2*this.radius * normVel[0];
+    let yf = this.pos[1] + 2*this.radius * normVel[1];
     let shipGradient = ctx.createLinearGradient(xi, yi, xf, yf);
     shipGradient.addColorStop(0, this.color);
     shipGradient.addColorStop(1, this.otherColor);
@@ -97,15 +102,46 @@ class Ship extends MovingObject {
     ctx.shadowBlur = 7;
     ctx.shadowColor = this.otherColor;
     ctx.beginPath();
-    ctx.arc(
-      this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true
-    );
+    // ctx.arc(
+    //   this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true
+    // );
+    this.rotateCorners();
+    this.calcCornersAbsolutePosition();
+    ctx.moveTo(this.cornersAbsPos[0][0], this.cornersAbsPos[0][1]);
+    ctx.lineTo(this.cornersAbsPos[1][0], this.cornersAbsPos[1][1]);
+    ctx.lineTo(this.cornersAbsPos[2][0], this.cornersAbsPos[2][1]);
     ctx.fill();
+  }
+  
+  rotateCorners() { // this.cornersRelPos = [[-this.radius, this.radius], [this.radius, 0], [-this.radius, -this.radius]];
+    let dirAngle = Math.atan(this.vel[1]/this.vel[0]);
+    if (isNaN(dirAngle)) dirAngle = 0;
+    let signController = 1;
+    if(this.vel[0]<0) signController = -1;
+    let zeroAngleCorners = [[-this.radius, this.radius], [2*this.radius, 0], [-this.radius, -this.radius]];
+    this.cornersRelPos[0][0] = (zeroAngleCorners[0][0] * Math.cos(dirAngle) + zeroAngleCorners[0][1] * Math.sin(dirAngle))*signController;
+    this.cornersRelPos[0][1] = (-zeroAngleCorners[0][1] * Math.cos(dirAngle) + zeroAngleCorners[0][0] * Math.sin(dirAngle))*signController;
+    this.cornersRelPos[1][0] = (zeroAngleCorners[1][0] * Math.cos(dirAngle) + zeroAngleCorners[1][1] * Math.sin(dirAngle))*signController;
+    this.cornersRelPos[1][1] = (-zeroAngleCorners[1][1] * Math.cos(dirAngle) + zeroAngleCorners[1][0] * Math.sin(dirAngle))*signController;
+    this.cornersRelPos[2][0] = (zeroAngleCorners[2][0] * Math.cos(dirAngle) + zeroAngleCorners[2][1] * Math.sin(dirAngle))*signController;
+    this.cornersRelPos[2][1] = (-zeroAngleCorners[2][1] * Math.cos(dirAngle) + zeroAngleCorners[2][0] * Math.sin(dirAngle))*signController;
+  }
+  
+  calcCornersAbsolutePosition() {
+    this.cornersAbsPos[0][0] = this.pos[0] + this.cornersRelPos[0][0];
+    this.cornersAbsPos[0][1] = this.pos[1] + this.cornersRelPos[0][1];
+    this.cornersAbsPos[1][0] = this.pos[0] + this.cornersRelPos[1][0];
+    this.cornersAbsPos[1][1] = this.pos[1] + this.cornersRelPos[1][1];
+    this.cornersAbsPos[2][0] = this.pos[0] + this.cornersRelPos[2][0];
+    this.cornersAbsPos[2][1] = this.pos[1] + this.cornersRelPos[2][1];
+    console.log(this.cornersAbsPos, this.cornersAbsPos);
   }
 
   fireVolly() {
-    let vollyCount = 5;
+    const vollyCount = 5;
     let bulletPos = this.pos;
+    // const bulletStep = 1.5;
+    const bulletVelStep = 2;
     let bulletColor = this.color;
     
     const normShipVel = Util.norm(this.vel);
@@ -118,19 +154,20 @@ class Ship extends MovingObject {
       relVel = Util.scale(relDir, Bullet.SPEED);
     }
 
-    const bulletVel = [
+    let bulletVel = [
       relVel[0] + this.vel[0],
       relVel[1] + this.vel[1]
     ];
     
-    for (let i = 0; i < vollyCount; i++) {
-      
-      this.fireBullet(bulletPos,bulletVel,bulletColor);
-      
-      bulletPos = [
-        bulletPos[0] + Bullet.RADIUS * 3/2 * relDir[0],
-        bulletPos[1] + Bullet.RADIUS * 3/2 * relDir[1]
+    for (let i = 0; i < vollyCount; i++) {   
+      this.fireBullet(bulletPos, bulletVel, bulletColor);
+      let bulletVelStepVector = Util.scale(relDir, bulletVelStep);
+      // console.log(bulletVel, bulletVelStepVector);
+      bulletVel = [
+        bulletVel[0] + bulletVelStepVector[0],
+        bulletVel[1] + bulletVelStepVector[1]
       ];
+      // console.log(bulletVel);
       bulletColor = this.advanceColorSequentially(bulletColor);
       bulletColor = this.advanceColorSequentially(bulletColor);
       bulletColor = this.advanceColorSequentially(bulletColor);
@@ -158,7 +195,7 @@ class Ship extends MovingObject {
 
   relocate() {
     this.pos = this.game.centerPosition();
-    console.log(this.pos);
+    // console.log(this.pos);
     this.vel = [0, 0];
   }
 }

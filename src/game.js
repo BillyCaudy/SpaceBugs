@@ -4,18 +4,32 @@ const Ship = require("./ship");
 const Util = require("./util");
 const numFrames = 99;
 const bgImgs = new Array(numFrames);
+const bgDuration = 1;
 let bgIdx = 0;
+const spaceFly = new Image();
+spaceFly.src = './pics/spaceFlySprite.png'
+let spaceFlyIdx = 0;
+let spaceFlyX = 0, spaceFlyY = -63, spaceFlyW = 2000, spaceFlyH = 1000;
+const slime = new Image();
+slime.src = './pics/slimeSprite.png'
+let slimeIdx = 0;
+let slimeX = 0, slimeY = 187, slimeW = 2000, slimeH = 1000;
 
 class Game {
   constructor() {
     this.asteroids = [];
     this.bullets = [];
     this.ships = [];
+    this.spaceFly = spaceFly;
+    this.framesCounter = 0;
 
     for(let i = 0; i < numFrames; i++) {
       let bgImg = new Image();
-      bgImg.src = `./galaxy_pics/${9*(i + 1)}.jpg`;
+      bgImg.src = `./pics/${9*(i + 1)}.jpg`;
+      bgImg.style = "opacity: 0.2";
+      // if(i===0) console.log(bgImg);
       bgImgs[i] = bgImg;
+      
     }
     
     this.addAsteroids();
@@ -76,15 +90,46 @@ class Game {
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.shadowBlur = 0;
+    
     // ctx.drawImage(bgImgs[16], 5, 5); 
-    ctx.drawImage(bgImgs[bgIdx], 5, 5); 
-    bgIdx = (bgIdx + 1) % numFrames;
+    ctx.drawImage(bgImgs[Math.floor(bgIdx / bgDuration)], 5, 5);
+    bgIdx = (bgIdx + 1) % (bgDuration * numFrames);
+
+    let cropW = spaceFlyW / 8, cropH = spaceFlyH / 4;
+    let cropX = ((spaceFlyIdx % 8) * cropW) % spaceFlyW;
+    let cropY = (Math.floor(spaceFlyIdx / 8) * cropH) % spaceFlyH;
+    // ctx.drawImage(spaceFly, cropX, cropY, cropW, cropH, spaceFlyX, spaceFlyY, cropW, cropH);
+    spaceFlyIdx = (spaceFlyIdx + 1) % 32;
+    if (spaceFlyX === Game.DIM_X - 10) spaceFlyY = (spaceFlyY + 10) % Game.DIM_Y;
+    spaceFlyX = (spaceFlyX + 10) % Game.DIM_X;
+
+    cropW = slimeW / 8, cropH = slimeH / 4;
+    cropX = ((slimeIdx % 8) * cropW) % slimeW;
+    cropY = (Math.floor(slimeIdx / 8) * cropH) % slimeH;
+    ctx.drawImage(slime, cropX, cropY, cropW, cropH, slimeX + cropW / 8, slimeY, cropW / 2, cropH / 2);
+    slimeIdx = (slimeIdx + 1) % 32;
+    if (slimeX === Game.DIM_X - 10) slimeY = (slimeY + 10) % Game.DIM_Y;
+    slimeX = (slimeX + 10) % Game.DIM_X;
+    
     this.ships[0].resetColorsSequentially();
     this.allObjects().forEach((object) => { //comment out 
       object.draw(ctx); //these lines to exclude 
     }); //asteroids and ship
   }
 
+  modal(ctx) {
+    ctx.shadowBlur = 0;
+    let oldFillStyle = ctx.fillStyle;
+    let oldGlobAlpha = ctx.globalAlpha;
+    ctx.globalAlpha = 0.6;
+    ctx.fillStyle = "#303";
+    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    // if (this.framesCounter === 100 * Math.floor(this.framesCounter / 100)) console.log(ctx.fillStyle, ctx.globalAlpha);
+    ctx.fillStyle = oldFillStyle;
+    ctx.globalAlpha = oldGlobAlpha;
+    // if(this.framesCounter === 100*Math.floor(this.framesCounter/100)) console.log(ctx.fillStyle,ctx.globalAlpha);
+  }
+  
   isOutOfBounds(pos) {
     return (pos[0] < 0) || (pos[1] < 0) ||
       (pos[0] > Game.DIM_X) || (pos[1] > Game.DIM_Y);
@@ -139,9 +184,9 @@ class Game {
   }
 }
 
-Game.BG_COLOR = "#000000";
-Game.DIM_X = 1280;//860;
-Game.DIM_Y = 720;//490;
+Game.BG_COLOR = "purple";
+Game.DIM_X = 1290;//860;
+Game.DIM_Y = 730;//490;
 Game.FPS = 32;
 Game.NUM_ASTEROIDS = 32;
 

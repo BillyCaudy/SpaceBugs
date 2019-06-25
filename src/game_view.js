@@ -5,9 +5,13 @@ class GameView {
     this.ship = this.game.addShip();
     this.counter = 0;
     this.limiter = 1000000;
+    this.isPaused = false;
   }
 
   bindKeyHandlers() {
+
+    key("enter", () => { this.isPaused = !this.isPaused });
+    
     const ship = this.ship;
 
     Object.keys(GameView.MOVES).forEach((k) => {
@@ -20,18 +24,26 @@ class GameView {
 
   start() {
     this.bindKeyHandlers();
-    this.lastTime = 0;
+    // console.log(this.lastTime);
+    this.lastTime = 0; //this variable is created here.
+    // console.log(this.lastTime); 
     // start the animation
     requestAnimationFrame(this.animate.bind(this));
   }
 
   animate(time) {
     if (this.counter >= this.limiter) return;
-    this.counter++;
-    const timeDelta = time - this.lastTime;
+    if (this.isPaused) {
+      this.game.draw(this.ctx);
+      this.game.modal(this.ctx);
+    } else {
+      const timeDelta = time - this.lastTime;
 
-    this.game.step(timeDelta);
-    this.game.draw(this.ctx);
+      this.game.step(timeDelta);
+      this.game.draw(this.ctx);
+    }
+    this.counter++;
+    this.game.framesCounter = this.counter;
     this.lastTime = time;
 
     // every call to animate requests causes another call to animate

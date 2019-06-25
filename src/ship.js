@@ -134,7 +134,7 @@ class Ship extends MovingObject {
     this.cornersAbsPos[1][1] = this.pos[1] + this.cornersRelPos[1][1];
     this.cornersAbsPos[2][0] = this.pos[0] + this.cornersRelPos[2][0];
     this.cornersAbsPos[2][1] = this.pos[1] + this.cornersRelPos[2][1];
-    console.log(this.cornersAbsPos, this.cornersAbsPos);
+    // console.log(this.cornersAbsPos, this.cornersAbsPos);
   }
 
   fireVolly() {
@@ -189,8 +189,24 @@ class Ship extends MovingObject {
   }
 
   power(impulse) {
-    this.vel[0] += impulse[0];
-    this.vel[1] += impulse[1];
+    if(impulse[0]!==0 && Math.abs(this.vel[0]) > 1 && this.vel[0]/impulse[0] < 0) {
+      if(this.vel[0] < 0) {
+        this.vel[0] = -Math.floor(-this.vel[0] / 4);
+      } else {
+        this.vel[0] = Math.floor(this.vel[0] / 4);
+      }
+    } else {
+      this.vel[0] += impulse[0];
+    }
+    if (impulse[1] !== 0 && Math.abs(this.vel[1]) > 1 && this.vel[1] / impulse[1] < 0) {
+      if (this.vel[1] < 0) {
+        this.vel[1] = -Math.floor(-this.vel[1] / 4);
+      } else {
+        this.vel[1] = Math.floor(this.vel[1] / 4);
+      }
+    } else {
+      this.vel[1] += impulse[1];
+    }
   }
 
   relocate() {

@@ -33,6 +33,10 @@ class GameView {
 
   animate(time) {
     if (this.counter >= this.limiter) return;
+    if(this.game.asteroids.length===0) {
+      this.game.addAsteroids();
+      this.isPaused = true;
+    }
     if (this.isPaused) {
       this.game.draw(this.ctx);
       this.game.modal(this.ctx);
@@ -56,6 +60,10 @@ GameView.MOVES = {
   a: [-1, 0],
   s: [0, 1],
   d: [1, 0],
+  up: [0, -1],
+  left: [-1, 0],
+  down: [0, 1],
+  right: [1, 0]
 };
 
 module.exports = GameView;

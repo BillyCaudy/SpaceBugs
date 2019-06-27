@@ -1,5 +1,5 @@
 const Game = require("./game");
-const GameView = require("./game_view");
+const GameView = require("./play");
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = document.getElementsByTagName("canvas")[0];

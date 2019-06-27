@@ -5,6 +5,7 @@ const Util = require("./util");
 const numFrames = 99;
 const bgImgs = new Array(numFrames);
 const bgDuration = 1;
+let level = 1;
 let bgIdx = 0;
 const spaceFly = new Image();
 spaceFly.src = './pics/spaceFlySprite.png'
@@ -32,7 +33,7 @@ class Game {
       
     }
     
-    this.addAsteroids();
+    this.addAsteroids = this.addAsteroids.bind(this);
   }
   
   add(object) {
@@ -48,9 +49,11 @@ class Game {
   }
 
   addAsteroids() {
-    for (let i = 0; i < Game.NUM_ASTEROIDS; i++) {
+    for (let i = 0; i < 1+ 3**level; i++) {
       this.add(new Asteroid({ game: this }));
     }
+
+    level++;
   }
 
   addShip() {
@@ -103,6 +106,8 @@ class Game {
     if (spaceFlyX === Game.DIM_X - 10) spaceFlyY = (spaceFlyY + 10) % Game.DIM_Y;
     spaceFlyX = (spaceFlyX + 10) % Game.DIM_X;
 
+    
+    
     cropW = slimeW / 8, cropH = slimeH / 4;
     cropX = ((slimeIdx % 8) * cropW) % slimeW;
     cropY = (Math.floor(slimeIdx / 8) * cropH) % slimeH;
@@ -110,6 +115,10 @@ class Game {
     slimeIdx = (slimeIdx + 1) % 32;
     if (slimeX === Game.DIM_X - 10) slimeY = (slimeY + 10) % Game.DIM_Y;
     slimeX = (slimeX + 10) % Game.DIM_X;
+    
+    ctx.font = "42px Impact";
+    ctx.style = "Bold"
+    ctx.fillText(":::::SpaceForce:::::   Make The Galaxy Great Again!",50,50)
     
     this.ships[0].resetColorsSequentially();
     this.allObjects().forEach((object) => { //comment out 
@@ -127,6 +136,8 @@ class Game {
     // if (this.framesCounter === 100 * Math.floor(this.framesCounter / 100)) console.log(ctx.fillStyle, ctx.globalAlpha);
     ctx.fillStyle = oldFillStyle;
     ctx.globalAlpha = oldGlobAlpha;
+    ctx.font = "30px Courier";
+    ctx.fillText(`Level ${level-1}, ${3**(level-1)+1} flies detected.`,100,100);
     // if(this.framesCounter === 100*Math.floor(this.framesCounter/100)) console.log(ctx.fillStyle,ctx.globalAlpha);
   }
   
@@ -188,6 +199,6 @@ Game.BG_COLOR = "purple";
 Game.DIM_X = 1290;//860;
 Game.DIM_Y = 730;//490;
 Game.FPS = 32;
-Game.NUM_ASTEROIDS = 32;
+Game.NUM_ASTEROIDS = 8;
 
 module.exports = Game;

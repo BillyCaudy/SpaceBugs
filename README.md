@@ -1,4 +1,4 @@
-# Awesomer Asteroids
+# SpaceBugs
 
 Description: ...
 

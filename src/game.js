@@ -5,7 +5,7 @@ const Util = require("./util");
 const numFrames = 99;
 const bgImgs = new Array(numFrames);
 const bgDuration = 1;
-let level = 1;
+let level = 0;
 let bgIdx = 0;
 const spaceFly = new Image();
 spaceFly.src = './pics/spaceFlySprite.png'
@@ -23,6 +23,7 @@ class Game {
     this.ships = [];
     this.spaceFly = spaceFly;
     this.framesCounter = 0;
+    this.isPaused = true;
 
     for(let i = 0; i < numFrames; i++) {
       let bgImg = new Image();
@@ -49,7 +50,7 @@ class Game {
   }
 
   addAsteroids() {
-    for (let i = 0; i < 1+ 3**level; i++) {
+    for (let i = 0; i < 3*level; i++) {
       this.add(new Asteroid({ game: this }));
     }
 
@@ -111,7 +112,7 @@ class Game {
     cropW = slimeW / 8, cropH = slimeH / 4;
     cropX = ((slimeIdx % 8) * cropW) % slimeW;
     cropY = (Math.floor(slimeIdx / 8) * cropH) % slimeH;
-    ctx.drawImage(slime, cropX, cropY, cropW, cropH, slimeX + cropW / 8, slimeY, cropW / 2, cropH / 2);
+    // ctx.drawImage(slime, cropX, cropY, cropW, cropH, slimeX + cropW / 8, slimeY, cropW / 2, cropH / 2);
     slimeIdx = (slimeIdx + 1) % 32;
     if (slimeX === Game.DIM_X - 10) slimeY = (slimeY + 10) % Game.DIM_Y;
     slimeX = (slimeX + 10) % Game.DIM_X;
@@ -124,6 +125,7 @@ class Game {
     this.allObjects().forEach((object) => { //comment out 
       object.draw(ctx); //these lines to exclude 
     }); //asteroids and ship
+    
   }
 
   modal(ctx) {
@@ -137,8 +139,9 @@ class Game {
     ctx.fillStyle = oldFillStyle;
     ctx.globalAlpha = oldGlobAlpha;
     ctx.font = "30px Courier";
-    ctx.fillText(`Level ${level-1}, ${3**(level-1)+1} flies detected.`,100,100);
+    ctx.fillText(`Level ${level}, ${this.asteroids.length} flies detected.`,100,100);
     // if(this.framesCounter === 100*Math.floor(this.framesCounter/100)) console.log(ctx.fillStyle,ctx.globalAlpha);
+    
   }
   
   isOutOfBounds(pos) {

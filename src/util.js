@@ -4,6 +4,13 @@ const Util = {
     const norm = Util.norm(vec);
     return Util.scale(vec, 1 / norm);
   },
+  // Find difference between two vectors, pos1 - pos2
+  diff(pos1, pos2) {
+    return [
+      pos1[0] - pos2[0],
+      pos1[1] - pos2[1]
+    ]
+  }, 
   // Find distance between two points.
   dist(pos1, pos2) {
     return Math.sqrt(
@@ -16,8 +23,16 @@ const Util = {
   },
   // Return a randomly oriented vector with the given length.
   randomVec(length) {
-    const deg = 2 * Math.PI * Math.random();
-    return Util.scale([Math.sin(deg), Math.cos(deg)], length);
+    const ang = 2 * Math.PI * Math.random();
+    return Util.scale([Math.sin(ang), Math.cos(ang)], length);
+  },
+  // Return the input vector rotated counter-clockwise by the input angle
+  rotateVec(vec,rotAng) {
+    let oldAng = Math.atan(vec[1]/vec[0]);
+    if(vec[1]<0) oldAng = oldAng + Math.PI;
+    let length = this.norm(vec);
+    let newAng = oldAng + rotAng;
+    return Util.scale([Math.cos(newAng), Math.sin(newAng)], length);
   },
   // Scale the length of a vector by the given amount.
   scale(vec, m) {

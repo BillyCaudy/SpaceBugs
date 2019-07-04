@@ -7,7 +7,7 @@ const Bullet = require("./bullet");
 const DEFAULTS = {
   COLOR: "#505050",
   RADIUS: 32,
-  SPEED: 2
+  SPEED: 1
 };
 
 class Asteroid extends MovingObject {
@@ -89,6 +89,25 @@ class Asteroid extends MovingObject {
     ctx.shadowBlur = myShadowBlur;
     ctx.shadowColor = "#9D0";
     ctx.drawImage(this.game.spaceFly,spaceFlyX,spaceFlyY,250,250,this.pos[0]-63,this.pos[1]-63,125,125);
+    
+    this.adjustCourse();
+  }
+  
+  adjustCourse() {
+    let ship = this.game.ships[0];
+    let bestTraj = Util.dir(Util.diff(ship.pos, this.pos));
+    let thisTraj = Util.dir(this.vel);
+    let bestAng = Math.atan(bestTraj[1] / bestTraj[0]);
+    if (bestTraj[1] < 0) bestAng = bestAng + Math.PI;
+    let thisAng = Math.atan(thisTraj[1] / thisTraj[0]);
+    if (thisTraj[1] < 0) thisAng = thisAng + Math.PI;
+    let rotAng = Math.PI/16;
+    // if (Math.abs(bestAng - thisAng) > Math.PI) rotAng = -rotAng;
+    if (Math.abs(bestAng - thisAng) >= Math.PI / 16) this.vel = Util.rotateVec(this.vel, rotAng);
+    // let newTraj = Util.dir(this.vel);
+    // let newAng = Math.atan(newTraj[1] / newTraj[0]);
+    // if (newTraj[1] < 0) newAng = newAng + Math.PI;
+    // if (!this.game.isPaused && this.game.framesCounter < 10) console.log(thisTraj, thisAng, newTraj, newAng);
   }
   
 }

@@ -5,7 +5,7 @@ class GameView {
     this.ship = this.game.addShip();
     this.counter = 0;
     this.limiter = 1000000;
-    this.isPaused = false;
+    this.isPaused = true;
   }
 
   bindKeyHandlers() {
@@ -47,12 +47,17 @@ class GameView {
       this.game.draw(this.ctx);
     }
     this.counter++;
-    this.game.framesCounter = this.counter;
+    if(!this.isPaused) this.game.framesCounter++;
     this.lastTime = time;
+    this.game.isPaused = this.isPaused;
 
     // every call to animate requests causes another call to animate
     requestAnimationFrame(this.animate.bind(this));
+
   }
+  
+  
+  
 }
 
 GameView.MOVES = {

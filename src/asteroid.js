@@ -7,7 +7,7 @@ const Bullet = require("./bullet");
 const DEFAULTS = {
   COLOR: "#505050",
   RADIUS: 32,
-  SPEED: 1
+  SPEED: 2
 };
 
 class Asteroid extends MovingObject {
@@ -98,16 +98,17 @@ class Asteroid extends MovingObject {
     let bestTraj = Util.dir(Util.diff(ship.pos, this.pos));
     let thisTraj = Util.dir(this.vel);
     let bestAng = Math.atan(bestTraj[1] / bestTraj[0]);
-    if (bestTraj[1] < 0) bestAng = bestAng + Math.PI;
+    if (bestTraj[0] < 0) bestAng = bestAng + Math.PI;
     let thisAng = Math.atan(thisTraj[1] / thisTraj[0]);
-    if (thisTraj[1] < 0) thisAng = thisAng + Math.PI;
+    if (thisTraj[0] < 0) thisAng = thisAng + Math.PI;
     let rotAng = Math.PI/16;
-    // if (Math.abs(bestAng - thisAng) > Math.PI) rotAng = -rotAng;
-    if (Math.abs(bestAng - thisAng) >= Math.PI / 16) this.vel = Util.rotateVec(this.vel, rotAng);
+    let diffAng = bestAng - thisAng;
+    if (diffAng > Math.PI || diffAng < 0) rotAng = -rotAng;
+    if (Math.abs(diffAng) >= Math.PI / 16) this.vel = Util.rotateVec(this.vel, rotAng);
     // let newTraj = Util.dir(this.vel);
     // let newAng = Math.atan(newTraj[1] / newTraj[0]);
     // if (newTraj[1] < 0) newAng = newAng + Math.PI;
-    // if (!this.game.isPaused && this.game.framesCounter < 10) console.log(thisTraj, thisAng, newTraj, newAng);
+    if (!this.game.isPaused && this.game.framesCounter % 100 < 10) console.log(bestAng,thisAng,diffAng, Math.sign(rotAng));
   }
   
 }

@@ -29,7 +29,7 @@ const Util = {
   // Return the input vector rotated counter-clockwise by the input angle
   rotateVec(vec,rotAng) {
     let oldAng = Math.atan(vec[1]/vec[0]);
-    if(vec[1]<0) oldAng = oldAng + Math.PI;
+    if(vec[0]<0) oldAng = oldAng + Math.PI;
     let length = this.norm(vec);
     let newAng = oldAng + rotAng;
     return Util.scale([Math.cos(newAng), Math.sin(newAng)], length);

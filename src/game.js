@@ -50,7 +50,7 @@ class Game {
   }
 
   addAsteroids() {
-    for (let i = 0; i < 3*level; i++) {
+    for (let i = 0; i < 1; i++) { //i < 3*level
       this.add(new Asteroid({ game: this }));
     }
 

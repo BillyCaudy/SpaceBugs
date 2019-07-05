@@ -103,12 +103,12 @@ class Asteroid extends MovingObject {
     if (thisTraj[0] < 0) thisAng = thisAng + Math.PI;
     let rotAng = Math.PI/16;
     let diffAng = bestAng - thisAng;
-    if (diffAng > Math.PI || diffAng < 0) rotAng = -rotAng;
+    if ((diffAng > Math.PI && diffAng < 2*Math.PI) || (diffAng < 0 && diffAng > -Math.PI)) rotAng = -rotAng;
     if (Math.abs(diffAng) >= Math.PI / 16) this.vel = Util.rotateVec(this.vel, rotAng);
     // let newTraj = Util.dir(this.vel);
     // let newAng = Math.atan(newTraj[1] / newTraj[0]);
     // if (newTraj[1] < 0) newAng = newAng + Math.PI;
-    if (!this.game.isPaused && this.game.framesCounter % 100 < 10) console.log(bestAng,thisAng,diffAng, Math.sign(rotAng));
+    // if (!this.game.isPaused && this.game.framesCounter % 100 < 10) console.log(bestAng,thisAng,diffAng, Math.sign(rotAng));
   }
   
 }

@@ -17,7 +17,11 @@ class Asteroid extends MovingObject {
     options.radius = DEFAULTS.RADIUS;
     options.vel = options.vel || Util.randomVec(DEFAULTS.SPEED);
     super(options);
+    this.boarderDweller = true;
+    this.isWrappable = false;
     this.startGlow = Math.floor(10*Math.random());
+    this.reCharge = false;
+    this.nearestExit = [0,0];
     console.log(this.startGlow);
   }
 
@@ -90,12 +94,20 @@ class Asteroid extends MovingObject {
     ctx.shadowColor = "#9D0";
     ctx.drawImage(this.game.spaceFly,spaceFlyX,spaceFlyY,250,250,this.pos[0]-63,this.pos[1]-63,125,125);
     
-    this.adjustCourse();
+    if(!this.game.isPaused) this.adjustCourse();
   }
   
   adjustCourse() {
     let ship = this.game.ships[0];
-    let bestTraj = Util.dir(Util.diff(ship.pos, this.pos));
+    let target = ship.pos;
+    let relTarget = Util.diff(target, this.pos);
+    let targetDistance = Util.norm(relTarget);
+    if (!this.reCharge && targetDistance < 100) this.reCharge = true;
+    if(this.reCharge) {
+      target = this.nearestExit; 
+      relTarget = Util.diff(target, this.pos);
+    }
+    let bestTraj = Util.dir(relTarget);
     let thisTraj = Util.dir(this.vel);
     let bestAng = Math.atan(bestTraj[1] / bestTraj[0]);
     if (bestTraj[0] < 0) bestAng = bestAng + Math.PI;
@@ -109,6 +121,10 @@ class Asteroid extends MovingObject {
     // let newAng = Math.atan(newTraj[1] / newTraj[0]);
     // if (newTraj[1] < 0) newAng = newAng + Math.PI;
     // if (!this.game.isPaused && this.game.framesCounter % 100 < 10) console.log(bestAng,thisAng,diffAng, Math.sign(rotAng));
+  }
+  
+  fireSpit() {
+    this.reCharge = true;
   }
   
 }

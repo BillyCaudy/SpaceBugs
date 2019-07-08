@@ -50,7 +50,7 @@ class Game {
   }
 
   addAsteroids() {
-    for (let i = 0; i < 1; i++) { //i < 3*level
+    for (let i = 0; i < 3 * level; i++) { 
       this.add(new Asteroid({ game: this }));
     }
 
@@ -117,9 +117,8 @@ class Game {
     if (slimeX === Game.DIM_X - 10) slimeY = (slimeY + 10) % Game.DIM_Y;
     slimeX = (slimeX + 10) % Game.DIM_X;
     
-    ctx.font = "42px Impact";
-    ctx.style = "Bold"
-    ctx.fillText(":::::SpaceForce:::::   Make The Galaxy Great Again!",50,50)
+    ctx.font = "bold italic 42px Impact";
+    ctx.fillText(":::::SpaceForce:::::   Make The Galaxy Great Again!",20,50)
     
     this.ships[0].resetColorsSequentially();
     this.allObjects().forEach((object) => { //comment out 

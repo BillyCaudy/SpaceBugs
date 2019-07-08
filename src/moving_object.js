@@ -8,6 +8,7 @@ class MovingObject {
     this.color = options.color;
     this.game = options.game;
     this.isWrappable = true;
+    this.boarderDweller = false;
   }
 
   collideWith(otherObject) {
@@ -43,6 +44,8 @@ class MovingObject {
     if (this.game.isOutOfBounds(this.pos)) {
       if (this.isWrappable) {
         this.pos = this.game.wrap(this.pos);
+      } else if (this.boarderDweller) {
+        this.reCharge = false;
       } else {
         this.remove();
       }

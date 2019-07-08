@@ -21,7 +21,7 @@ class Asteroid extends MovingObject {
     this.isWrappable = false;
     this.startGlow = Math.floor(10*Math.random());
     this.reCharge = false;
-    this.nearestExit = [0,0];
+    this.nearestExit = this.game.farCorner();
     console.log(this.startGlow);
   }
 

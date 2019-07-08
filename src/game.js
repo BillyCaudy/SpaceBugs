@@ -213,6 +213,14 @@ class Game {
       Util.wrap(pos[0], Game.DIM_X), Util.wrap(pos[1], Game.DIM_Y)
     ];
   }
+  
+  farCorner() {
+    return [
+      Game.DIM_X,
+      Game.DIM_Y
+    ]  
+  }
+  
 }
 
 Game.BG_COLOR = "purple";

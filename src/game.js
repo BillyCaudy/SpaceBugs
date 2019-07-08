@@ -217,7 +217,7 @@ class Game {
   farCorner() {
     return [
       Game.DIM_X,
-      Game.DIM_Y
+      Game.DIM_Y + 1
     ]  
   }
   

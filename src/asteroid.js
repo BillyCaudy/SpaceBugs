@@ -13,7 +13,7 @@ const DEFAULTS = {
 class Asteroid extends MovingObject {
   constructor(options = {}) {
     options.color = "rgba(255, 255, 255, 0.3)";
-    options.pos = options.pos || options.game.randomPosition();
+    options.pos = options.pos || options.game.boarderPosition();
     options.radius = DEFAULTS.RADIUS;
     options.vel = options.vel || Util.randomVec(DEFAULTS.SPEED);
     super(options);
@@ -102,7 +102,7 @@ class Asteroid extends MovingObject {
     let target = ship.pos;
     let relTarget = Util.diff(target, this.pos);
     let targetDistance = Util.norm(relTarget);
-    if (!this.reCharge && targetDistance < 100) this.reCharge = true;
+    if (!this.reCharge && targetDistance < 180) this.reCharge = true;
     if(this.reCharge) {
       target = this.nearestExit; 
       relTarget = Util.diff(target, this.pos);

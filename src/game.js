@@ -173,6 +173,24 @@ class Game {
     ];
   }
 
+  boarderPosition() {
+    let pos = this.randomPosition();
+    if (Math.abs(pos[0] / Game.DIM_X - 1 / 2) > Math.abs(pos[1] / Game.DIM_Y - 1 / 2)) {
+      if (pos[0] < Game.DIM_X / 2) {
+        pos[0] = 0;
+      } else {
+        pos[0] = Game.DIM_X;
+      }
+    } else {
+      if (pos[1] < Game.DIM_Y / 2) {
+        pos[1] = 0;
+      } else {
+        pos[1] = Game.DIM_Y;
+      }
+    }
+    return pos;
+  }
+
   remove(object) {
     if (object instanceof Bullet) {
       this.bullets.splice(this.bullets.indexOf(object), 1);
